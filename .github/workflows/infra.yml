@@ -56,7 +56,7 @@ jobs:
     - name: Terraform Plan
       run: |
         tfvars_file=$(FILES=($(ls -1 tfvars/*.tfvars | sort)); echo ${FILES[$((INDEX % ${#FILES[@]}))]} | xargs basename)
-        terraform plan -var-file="$tfvars_file" -var="deploy_infra=true" -out=tfplan
+        terraform plan -var-file="tfvars/$tfvars_file" -var="deploy_infra=true" -out=tfplan
 
     - name: Terraform Apply
       id: apply
