@@ -1,0 +1,28 @@
+name: Cleanup Infrastructure
+
+on:
+  workflow_dispatch:  # Allow manual trigger
+
+env:
+  ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+  ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+  ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+  INDEX: ${{ vars.INDEX }}
+
+jobs:
+  deploy:
+    name: Cleanup Infrastructure
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: '{"clientId":"${{ secrets.AZURE_CLIENT_ID }}","clientSecret":"${{ secrets.AZURE_CLIENT_SECRET }}","subscriptionId":"${{ secrets.AZURE_SUBSCRIPTION_ID }}","tenantId":"${{ secrets.AZURE_TENANT_ID }}"}'
+
+    - name: Delete Resource Group
+      run: |
+        echo "Deleting resource group: ${{ vars.RG_NETPERF }}"
+        az group delete --name "${{ vars.RG_NETPERF }}" --yes --no-wait || true
+        echo "Resource group deletion command executed (may take time to complete)"

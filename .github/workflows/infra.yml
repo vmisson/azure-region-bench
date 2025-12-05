@@ -62,3 +62,15 @@ jobs:
       id: apply
       run: terraform apply -auto-approve tfplan
       continue-on-error: true
+
+    - name: Update Resource Group name in GitHub variable
+      run: |
+        RG_NAME=$(terraform output -raw resource_group_name 2>/dev/null)
+        curl -L \
+          -X PATCH \
+          -H "Accept: application/vnd.github+json" \
+          -H "Authorization: Bearer ${{ secrets.GITH_TOKEN }}" \
+          -H "X-GitHub-Api-Version: 2022-11-28" \
+          https://api.github.com/repos/vmisson/azure-region-bench/actions/variables/RG_NETPERF \
+          -d '{"name":"RG_NETPERF","value":"${RG_NAME}"}'
+
