@@ -1,4 +1,4 @@
-name: Full Pipeline (Infra -> FranceCentral -> Client -> Cleanup)
+name: Full Pipeline
 
 on:
   workflow_dispatch:  # Allow manual trigger
@@ -35,8 +35,8 @@ jobs:
           RUN_ID=$(gh run list --workflow=client.yml --repo vmisson/azure-region-bench --limit 1 --json databaseId --jq '.[0].databaseId')
           gh run watch $RUN_ID --repo vmisson/azure-region-bench
 
-      - name: Wait 2 minutes
-        run: sleep 120
+      - name: Wait 5 minutes
+        run: sleep 300
 
       - name: Run Cleanup workflow
         if: always()
