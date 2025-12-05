@@ -1,0 +1,33 @@
+name: Full Pipeline (Infra -> FranceCentral -> Client -> Cleanup)
+
+on:
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  pipeline:
+    name: Run Full Pipeline
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run Infrastructure workflow
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh workflow run infra.yml --repo vmisson/azure-region-bench
+
+      - name: Run France Central Server workflow
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh workflow run francecentral.yml --repo vmisson/azure-region-bench
+
+      - name: Run Client workflow
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh workflow run client.yml --repo vmisson/azure-region-bench
+
+      - name: Wait 2 minutes
+        run: sleep 120
+
+      - name: Run Cleanup workflow
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh workflow run cleanup.yml --repo vmisson/azure-region-bench
