@@ -29,7 +29,7 @@ jobs:
 
     - name: Update Index in GitHub variable
       run: |
-        INDEX=INDEX+1
+        INDEX=$((INDEX+1))
         curl -L \
           -X PATCH \
           -H "Accept: application/vnd.github+json" \
