@@ -26,3 +26,14 @@ jobs:
         echo "Deleting resource group: ${{ vars.RG_NETPERF }}"
         az group delete --name "${{ vars.RG_NETPERF }}" --yes --no-wait || true
         echo "Resource group deletion command executed (may take time to complete)"
+
+    - name: Update Index in GitHub variable
+      run: |
+        INDEX=INDEX+1
+        curl -L \
+          -X PATCH \
+          -H "Accept: application/vnd.github+json" \
+          -H "Authorization: Bearer ${{ secrets.GITH_TOKEN }}" \
+          -H "X-GitHub-Api-Version: 2022-11-28" \
+          https://api.github.com/repos/vmisson/azure-region-bench/actions/variables/INDEX \
+          -d '{"name":"INDEX","value":"$INDEX"}'
