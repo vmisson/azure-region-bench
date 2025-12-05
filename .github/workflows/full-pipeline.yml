@@ -11,17 +11,29 @@ jobs:
       - name: Run Infrastructure workflow
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh workflow run infra.yml --repo vmisson/azure-region-bench
+        run: |
+          gh workflow run infra.yml --repo vmisson/azure-region-bench
+          sleep 10
+          RUN_ID=$(gh run list --workflow=infra.yml --repo vmisson/azure-region-bench --limit 1 --json databaseId --jq '.[0].databaseId')
+          gh run watch $RUN_ID --repo vmisson/azure-region-bench
 
       - name: Run France Central Server workflow
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh workflow run francecentral.yml --repo vmisson/azure-region-bench
+        run: |
+          gh workflow run francecentral.yml --repo vmisson/azure-region-bench
+          sleep 10
+          RUN_ID=$(gh run list --workflow=francecentral.yml --repo vmisson/azure-region-bench --limit 1 --json databaseId --jq '.[0].databaseId')
+          gh run watch $RUN_ID --repo vmisson/azure-region-bench
 
       - name: Run Client workflow
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh workflow run client.yml --repo vmisson/azure-region-bench
+        run: |
+          gh workflow run client.yml --repo vmisson/azure-region-bench
+          sleep 10
+          RUN_ID=$(gh run list --workflow=client.yml --repo vmisson/azure-region-bench --limit 1 --json databaseId --jq '.[0].databaseId')
+          gh run watch $RUN_ID --repo vmisson/azure-region-bench
 
       - name: Wait 2 minutes
         run: sleep 120
