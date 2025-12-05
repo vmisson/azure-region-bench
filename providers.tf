@@ -10,14 +10,14 @@ terraform {
       version = ">=1.0.0"
     }
   }
-  # backend "azurerm" {
-  #   use_azuread_auth     = true
-  #   subscription_id      = ""
-  #   resource_group_name  = ""
-  #   storage_account_name = ""
-  #   container_name       = ""
-  #   key                  = ""
-  # }
+  backend "azurerm" {
+    use_azuread_auth     = true
+    subscription_id      = ""
+    resource_group_name  = ""
+    storage_account_name = ""
+    container_name       = ""
+    key                  = ""
+  }
 }
 
 provider "azurerm" {
