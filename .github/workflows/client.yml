@@ -1,4 +1,4 @@
-name: France Central Server
+name: Client
 
 on:
   workflow_dispatch:  # Allow manual trigger
@@ -15,7 +15,7 @@ env:
 
 jobs:
   deploy:
-    name: Deploy Server
+    name: Deploy Client
     runs-on: ubuntu-latest
     outputs:
       terraform_status: ${{ steps.apply.outcome }}
@@ -51,11 +51,12 @@ jobs:
           -backend-config="resource_group_name=${{ secrets.TERRAFORM_STATE_RG }}" \
           -backend-config="storage_account_name=${{ secrets.TERRAFORM_STATE_SA }}" \
           -backend-config="container_name=${{ secrets.TERRAFORM_STATE_CONTAINER }}" \
-          -backend-config="key=francecentral.tfstate"
+          -backend-config="key=client.tfstate"
 
     - name: Terraform Plan
       run: |
-        terraform plan -var-file="tfvars/francecentral.tfvars" -var="deploy_server=true" -out=tfplan
+        tfvars_file=$(FILES=($(ls -1 tfvars/*.tfvars | sort)); echo ${FILES[$((INDEX % ${#FILES[@]}))]} | xargs basename)
+        terraform plan -var-file="tfvars/$tfvars_file" -var="deploy_client=true" -out=tfplan
 
     - name: Terraform Apply
       id: apply
