@@ -19,7 +19,7 @@ module "infra" {
 module "server" {
   source     = "./modules/server"
   count      = var.deploy_server ? 1 : 0
-  index      = 1
+  index      = var.index
   location   = var.location
   size       = var.size
   depends_on = [module.infra]
