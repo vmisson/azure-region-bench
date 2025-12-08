@@ -1,0 +1,182 @@
+[
+  {
+    "displayName": "East US",
+    "name": "eastus",
+    "size": "Standard_D4ls_v6"
+  },
+  {
+    "displayName": "West US 2",
+    "name": "westus2",
+    "size": "Standard_D4ahs_v4"
+  },
+  {
+    "displayName": "Australia East",
+    "name": "australiaeast",
+    "size": "Standard_D4ads_v5"
+  },
+  {
+    "displayName": "Southeast Asia",
+    "name": "southeastasia",
+    "size": "Standard_D4als_v5"
+  },
+  {
+    "displayName": "North Europe",
+    "name": "northeurope",
+    "size": "Standard_D4als_v6"
+  },
+  {
+    "displayName": "Sweden Central",
+    "name": "swedencentral",
+    "size": "Standard_D4als_v6"
+  },
+  {
+    "displayName": "West Europe",
+    "name": "westeurope",
+    "size": "Standard_D4als_v6"
+  },
+  {
+    "displayName": "UK South",
+    "name": "uksouth",
+    "size": "Standard_D4als_v6"
+  },
+  {
+    "displayName": "Central US",
+    "name": "centralus",
+    "size": "Standard_D4ls_v6"
+  },
+  {
+    "displayName": "South Africa North",
+    "name": "southafricanorth",
+    "size": "Standard_D4ds_v5"
+  },
+  {
+    "displayName": "Central India",
+    "name": "centralindia",
+    "size": "Standard_D4lds_v5"
+  },
+  {
+    "displayName": "East Asia",
+    "name": "eastasia",
+    "size": "Standard_D4ads_v5"
+  },
+  {
+    "displayName": "Indonesia Central",
+    "name": "indonesiacentral",
+    "size": "Standard_D4ads_v5"
+  },
+  {
+    "displayName": "Japan East",
+    "name": "japaneast",
+    "size": "Standard_D4ads_v5"
+  },
+  {
+    "displayName": "Japan West",
+    "name": "japanwest",
+    "size": "Standard_D4ads_v5"
+  },
+  {
+    "displayName": "Korea Central",
+    "name": "koreacentral",
+    "size": "Standard_D4ads_v5"
+  },
+  {
+    "displayName": "Malaysia West",
+    "name": "malaysiawest",
+    "size": "Standard_D4ads_v6"
+  },
+  {
+    "displayName": "New Zealand North",
+    "name": "newzealandnorth",
+    "size": "Standard_D4als_v6"
+  },
+  {
+    "displayName": "Canada Central",
+    "name": "canadacentral",
+    "size": "Standard_D4als_v6"
+  },
+  {
+    "displayName": "Belgium Central",
+    "name": "belgiumcentral",
+    "size": "Standard_D4ls_v5"
+  },
+  {
+    "displayName": "France Central",
+    "name": "francecentral",
+    "size": "Standard_D4als_v6"
+  },
+  {
+    "displayName": "Germany West Central",
+    "name": "germanywestcentral",
+    "size": "Standard_D4als_v5"
+  },
+  {
+    "displayName": "Italy North",
+    "name": "italynorth",
+    "size": "Standard_D4ls_v6"
+  },
+  {
+    "displayName": "Norway East",
+    "name": "norwayeast",
+    "size": "Standard_D4als_v6"
+  },
+  {
+    "displayName": "Poland Central",
+    "name": "polandcentral",
+    "size": "Standard_D4als_v6"
+  },
+  {
+    "displayName": "Spain Central",
+    "name": "spaincentral",
+    "size": "Standard_D4als_v5"
+  },
+  {
+    "displayName": "Switzerland North",
+    "name": "switzerlandnorth",
+    "size": "Standard_D4als_v6"
+  },
+  {
+    "displayName": "Mexico Central",
+    "name": "mexicocentral",
+    "size": "Standard_D4ls_v5"
+  },
+  {
+    "displayName": "UAE North",
+    "name": "uaenorth",
+    "size": "Standard_D4ads_v5"
+  },
+  {
+    "displayName": "Brazil South",
+    "name": "brazilsouth",
+    "size": "Standard_D4als_v5"
+  },
+  {
+    "displayName": "Chile Central",
+    "name": "chilecentral",
+    "size": "Standard_D4als_v5"
+  },
+  {
+    "displayName": "Israel Central",
+    "name": "israelcentral",
+    "size": "Standard_D4ds_v5"
+  },
+  {
+    "displayName": "Qatar Central",
+    "name": "qatarcentral",
+    "size": "Standard_D4lds_v5"
+  },
+  {
+    "displayName": "East US 2",
+    "name": "eastus2",
+    "size": "Standard_D4ls_v6"
+  },
+  {
+    "displayName": "South Central US",
+    "name": "southcentralus",
+    "size": "Standard_D4ahs_v4"
+  },
+  {
+    "displayName": "West US 3",
+    "name": "westus3",
+    "size": "Standard_D4ahs_v4"
+  }
+]
