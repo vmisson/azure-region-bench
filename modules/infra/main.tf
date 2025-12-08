@@ -36,11 +36,18 @@ resource "azurerm_private_dns_zone" "table" {
   resource_group_name = module.resource_group.name
 }
 
+resource "time_sleep" "wait_for_dns_zones" {
+  depends_on      = [azurerm_private_dns_zone.table, azurerm_private_dns_zone.region]
+  create_duration = "20s"
+}
+
 resource "azurerm_private_dns_zone_virtual_network_link" "table" {
   name                  = "table-${var.location}-link"
   resource_group_name   = module.resource_group.name
   private_dns_zone_name = azurerm_private_dns_zone.table.name
   virtual_network_id    = module.virtual_network.id
+
+  depends_on = [time_sleep.wait_for_dns_zones]
 }
 
 resource "azurerm_private_dns_zone" "region" {
@@ -53,4 +60,6 @@ resource "azurerm_private_dns_zone_virtual_network_link" "region" {
   resource_group_name   = module.resource_group.name
   private_dns_zone_name = azurerm_private_dns_zone.region.name
   virtual_network_id    = module.virtual_network.id
+
+  depends_on = [time_sleep.wait_for_dns_zones]
 }

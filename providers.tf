@@ -9,6 +9,9 @@ terraform {
       source  = "Azure/azapi"
       version = ">=1.0.0"
     }
+    time = {
+      source  = "hashicorp/time"
+    }
   }
   backend "azurerm" {
     use_azuread_auth     = true
