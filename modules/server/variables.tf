@@ -24,7 +24,7 @@ variable "resource_group_name" {
 variable "virtual_network_name" {
   description = "The name of the virtual network."
   type        = string
-  default     = "vnet-netperf-region-001"
+  default     = "vnet-netperf-client-001"
 }
 
 variable "private_dns_zone_name" {

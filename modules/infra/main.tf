@@ -61,5 +61,5 @@ resource "azurerm_private_dns_zone_virtual_network_link" "region" {
   private_dns_zone_name = azurerm_private_dns_zone.region.name
   virtual_network_id    = module.virtual_network.id
 
-  depends_on = [time_sleep.wait_for_dns_zones]
+  depends_on = [azurerm_private_dns_zone_virtual_network_link.table]
 }
