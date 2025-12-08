@@ -15,7 +15,7 @@ jobs:
           gh workflow run infra.yml --repo vmisson/azure-region-bench
           sleep 10
           RUN_ID=$(gh run list --workflow=infra.yml --repo vmisson/azure-region-bench --limit 1 --json databaseId --jq '.[0].databaseId')
-          gh run watch $RUN_ID --repo vmisson/azure-region-bench
+          gh run watch $RUN_ID --repo vmisson/azure-region-bench --interval 60
 
       - name: Run Server workflows (All Regions)
         env:
@@ -70,7 +70,7 @@ jobs:
           # Get run IDs and wait for all workflows to complete in parallel
           for region in "${REGIONS[@]}"; do
             RUN_ID=$(gh run list --workflow=${region}.yml --repo vmisson/azure-region-bench --limit 1 --json databaseId --jq '.[0].databaseId')
-            gh run watch $RUN_ID --repo vmisson/azure-region-bench &
+            gh run watch $RUN_ID --repo vmisson/azure-region-bench --interval 120 &
           done
           wait
 
@@ -81,10 +81,10 @@ jobs:
           gh workflow run client.yml --repo vmisson/azure-region-bench
           sleep 10
           RUN_ID=$(gh run list --workflow=client.yml --repo vmisson/azure-region-bench --limit 1 --json databaseId --jq '.[0].databaseId')
-          gh run watch $RUN_ID --repo vmisson/azure-region-bench
+          gh run watch $RUN_ID --repo vmisson/azure-region-bench --interval 60
 
-      - name: Wait 5 minutes
-        run: sleep 300
+      - name: Wait 10 minutes
+        run: sleep 600
 
       - name: Run Cleanup workflow
         if: always()
