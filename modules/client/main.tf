@@ -27,6 +27,7 @@ module "linux_virtual_machine_client" {
   ]
   tags = {
   }
+  depends_on = [ azurerm_private_endpoint.this ]
 }
 
 resource "azurerm_user_assigned_identity" "this" {
