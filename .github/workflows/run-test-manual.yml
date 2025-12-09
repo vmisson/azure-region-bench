@@ -139,7 +139,6 @@ jobs:
         terraform plan -var-file="tfvars/${{ inputs.source }}.tfvars" -var="deploy_infra=true" -out=tfplan
 
     - name: Terraform Apply
-      id: apply
       run: terraform apply -auto-approve tfplan
       continue-on-error: true
 
@@ -157,7 +156,6 @@ jobs:
         terraform plan -var-file="tfvars/${{ inputs.destination }}.tfvars" -var="deploy_server=true" -out=tfplan
 
     - name: Terraform Apply
-      id: apply
       run: terraform apply -auto-approve tfplan
       continue-on-error: true
 
@@ -175,7 +173,6 @@ jobs:
         terraform plan -var-file="tfvars/${{ inputs.source }}.tfvars" -var="deploy_client=true" -out=tfplan
 
     - name: Terraform Apply
-      id: apply
       run: terraform apply -auto-approve tfplan
       continue-on-error: true
 
