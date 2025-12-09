@@ -7,7 +7,7 @@ module "resource_group" {
 module "virtual_network" {
   source              = "azurerm/resources/azure//modules/virtual_network"
   location            = var.location
-  custom_name = var.virtual_network_name
+  custom_name         = var.virtual_network_name
   resource_group_name = module.resource_group.name
   address_space       = ["10.200.0.0/24"]
 }

@@ -10,21 +10,21 @@ module "subnet" {
 }
 
 module "linux_virtual_machine_client" {
-  source                        = "azurerm/resources/azure//modules/linux_virtual_machine"
-  location                      = var.location
-  environment                   = var.location
-  workload                      = "cli"
-  instance                      = "001"
-  resource_group_name           = data.azurerm_resource_group.this.name
-  subnet_id                     = module.subnet.id
-  size                          = var.size
+  source              = "azurerm/resources/azure//modules/linux_virtual_machine"
+  location            = var.location
+  environment         = var.location
+  workload            = "cli"
+  instance            = "001"
+  resource_group_name = data.azurerm_resource_group.this.name
+  subnet_id           = module.subnet.id
+  size                = var.size
   #zone                          = lookup(var.locationMappings[var.location], "az${count.index + 1}")
   custom_data                   = base64encode(file("${path.module}/cloud-init-client.txt"))
   enable_accelerated_networking = true
   identity_type                 = "UserAssigned"
   identity_ids = [
     azurerm_user_assigned_identity.this.id
-  ]  
+  ]
   tags = {
   }
 }

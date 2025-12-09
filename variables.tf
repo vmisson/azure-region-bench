@@ -48,3 +48,9 @@ variable "size" {
   description = "The size of the virtual machines."
   type        = string
 }
+
+variable "resource_group_name" {
+  description = "The name of the resource group where resources will be created."
+  type        = string
+  default     = "rg-netperf-region-001"
+}

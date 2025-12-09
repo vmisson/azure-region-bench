@@ -145,6 +145,7 @@ jobs:
   server:
     name: Deploy Server
     runs-on: ubuntu-latest
+    needs: infra
 
     steps:
     - name: Checkout code
@@ -180,6 +181,7 @@ jobs:
   client:
     name: Deploy Client
     runs-on: ubuntu-latest
+    needs: server
 
     steps:
     - name: Checkout code

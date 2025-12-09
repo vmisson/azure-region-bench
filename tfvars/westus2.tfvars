@@ -1,3 +1,3 @@
 location = "westus2"
-size = "Standard_D4ahs_v4"
-index = 34
+size     = "Standard_D4ahs_v4"
+index    = 34

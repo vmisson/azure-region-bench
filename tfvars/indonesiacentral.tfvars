@@ -1,3 +1,3 @@
 location = "indonesiacentral"
-size = "Standard_D4ads_v5"
-index = 12
+size     = "Standard_D4ads_v5"
+index    = 12

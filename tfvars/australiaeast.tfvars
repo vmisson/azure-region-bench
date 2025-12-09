@@ -1,3 +1,3 @@
 location = "australiaeast"
-size = "Standard_D4ads_v5"
-index = 0
+size     = "Standard_D4ads_v5"
+index    = 0

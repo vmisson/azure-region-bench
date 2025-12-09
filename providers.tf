@@ -10,7 +10,7 @@ terraform {
       version = ">=1.0.0"
     }
     time = {
-      source  = "hashicorp/time"
+      source = "hashicorp/time"
     }
   }
   backend "azurerm" {

@@ -1,3 +1,3 @@
 location = "southeastasia"
-size = "Standard_D4als_v5"
-index = 27
+size     = "Standard_D4als_v5"
+index    = 27

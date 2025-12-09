@@ -3,8 +3,8 @@ data "azurerm_resource_group" "this" {
 }
 
 data "azurerm_virtual_network" "this" {
-    name                = var.virtual_network_name
-    resource_group_name = data.azurerm_resource_group.this.name
+  name                = var.virtual_network_name
+  resource_group_name = data.azurerm_resource_group.this.name
 }
 
 data "azurerm_private_dns_zone" "region" {
