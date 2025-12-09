@@ -184,7 +184,7 @@ jobs:
 
     - name: Delete Resource Group
       run: |
-        echo "Deleting resource group: ${{ envs.TF_VAR_resource_group_name }}"
-        az group delete --name "${{ envs.TF_VAR_resource_group_name }}" --yes --no-wait || true
+        echo "Deleting resource group: ${{ env.TF_VAR_resource_group_name }}"
+        az group delete --name "${{ env.TF_VAR_resource_group_name }}" --yes --no-wait || true
         echo "Resource group deletion command executed (may take time to complete)"
 
