@@ -17,6 +17,16 @@ module "server" {
   depends_on          = [module.infra]
 }
 
+module "servers" {
+  source              = "./modules/server"
+  for_each            = var.deploy_servers ? local.locationList : {}
+  index               = index(local.locationList, each.key)
+  location            = each.key
+  resource_group_name = var.resource_group_name
+  size                = each.value
+  depends_on          = [module.infra]
+}
+
 module "client" {
   source              = "./modules/client"
   count               = var.deploy_client ? 1 : 0

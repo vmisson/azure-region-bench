@@ -33,6 +33,12 @@ variable "deploy_server" {
   default     = false
 }
 
+variable "deploy_servers" {
+  description = "Flag to deploy servers resources."
+  type        = bool
+  default     = false
+}
+
 variable "deploy_client" {
   description = "Flag to deploy client resources."
   type        = bool
@@ -42,11 +48,13 @@ variable "deploy_client" {
 variable "location" {
   description = "The Azure region where the resources will be deployed."
   type        = string
+  default     = "francecentral"
 }
 
 variable "size" {
   description = "The size of the virtual machines."
   type        = string
+  default     = ""
 }
 
 variable "resource_group_name" {
