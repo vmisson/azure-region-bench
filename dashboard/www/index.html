@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azure Region Span</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a2e;
+            color: #fff;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #0078d4 0%, #106ebe 100%);
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header h1 svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        .disclaimer {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.7);
+            background: rgba(0, 0, 0, 0.2);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-weight: 400;
+        }
+
+        .container {
+            display: flex;
+            height: calc(100vh - 60px);
+        }
+
+        .sidebar {
+            width: 350px;
+            background: #16213e;
+            padding: 20px;
+            overflow-y: auto;
+            border-right: 1px solid #0f3460;
+        }
+
+        .sidebar h2 {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: #00d9ff;
+        }
+
+        .region-selector {
+            margin-bottom: 20px;
+        }
+
+        .region-selector label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: #94a3b8;
+        }
+
+        .region-selector select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #0f3460;
+            border-radius: 6px;
+            background: #1a1a2e;
+            color: #fff;
+            font-size: 0.95rem;
+            cursor: pointer;
+        }
+
+        .region-selector select:focus {
+            outline: none;
+            border-color: #0078d4;
+        }
+
+        .latency-legend {
+            background: #1a1a2e;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .latency-legend h3 {
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+        }
+
+        .legend-color {
+            width: 30px;
+            height: 4px;
+            border-radius: 2px;
+            margin-right: 10px;
+        }
+
+        .stats-panel {
+            background: #1a1a2e;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stats-panel h3 {
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #0f3460;
+            font-size: 0.85rem;
+        }
+
+        .stat-item:last-child {
+            border-bottom: none;
+        }
+
+        .stat-label {
+            color: #94a3b8;
+        }
+
+        .stat-value {
+            font-weight: 600;
+            color: #00d9ff;
+        }
+
+        .latency-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .latency-item {
+            background: #1a1a2e;
+            border-radius: 6px;
+            padding: 12px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .latency-item:hover {
+            border-color: #0078d4;
+            transform: translateX(5px);
+        }
+
+        .latency-item .destination {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .latency-item .value {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .latency-item .value.excellent {
+            color: #00ff88;
+        }
+
+        .latency-item .value.good {
+            color: #88ff00;
+        }
+
+        .latency-item .value.fair {
+            color: #ffdd00;
+        }
+
+        .latency-item .value.poor {
+            color: #ff8800;
+        }
+
+        .latency-item .value.bad {
+            color: #ff4444;
+        }
+
+        .latency-item .latency-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .latency-item .bidirectional-info {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            margin-top: 2px;
+        }
+
+        .latency-item .measurement-count {
+            font-size: 0.75rem;
+            color: #64748b;
+            margin-top: 2px;
+        }
+
+        .popup-measurements {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid #0f3460;
+        }
+
+        #map {
+            flex: 1;
+            background: #0a0a1a;
+        }
+
+        .leaflet-popup-content-wrapper {
+            background: #16213e;
+            color: #fff;
+            border-radius: 8px;
+        }
+
+        .leaflet-popup-tip {
+            background: #16213e;
+        }
+
+        .leaflet-popup-content {
+            margin: 15px;
+        }
+
+        .popup-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: #00d9ff;
+        }
+
+        .popup-rtt {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #0f3460;
+        }
+
+        .popup-latency {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #94a3b8;
+        }
+
+        .popup-route {
+            font-size: 0.85rem;
+            color: #94a3b8;
+        }
+
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(26, 26, 46, 0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .loading.hidden {
+            display: none;
+        }
+
+        .loading-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #0f3460;
+            border-top-color: #0078d4;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .loading-text {
+            font-size: 1.1rem;
+            color: #94a3b8;
+            text-align: center;
+        }
+
+        .progress-container {
+            width: 300px;
+            height: 8px;
+            background: #0f3460;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #0078d4, #00d9ff);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .loading-percent {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #00d9ff;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .region-marker {
+            background: #0078d4;
+            border: 3px solid #fff;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .region-marker.selected {
+            background: #00ff88;
+            width: 20px;
+            height: 20px;
+            border-width: 4px;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 40px 20px;
+            color: #94a3b8;
+        }
+
+        .no-data svg {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1a1a2e;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #0f3460;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0078d4;
+        }
+    </style>
+</head>
+<body>
+    <div class="loading" id="loading">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <p class="loading-text" id="loadingText">Initializing...</p>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <p class="loading-percent" id="loadingPercent">0%</p>
+        </div>
+    </div>
+
+    <header class="header">
+        <h1>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+            </svg>
+            Azure Region Span
+        </h1>
+        <span class="disclaimer">⚠️ Unofficial tool - Not affiliated with Microsoft</span>
+    </header>
+
+    <div class="container">
+        <aside class="sidebar">
+            <div class="region-selector">
+                <label for="sourceRegion">Source Region</label>
+                <select id="sourceRegion">
+                    <option value="">Select a region...</option>
+                </select>
+            </div>
+
+            <div class="latency-legend">
+                <h3>RTT Legend</h3>
+                <p style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 10px;">TCP Round-Trip Time</p>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #00ff88;"></div>
+                    <span>Excellent (&lt; 20 ms)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #88ff00;"></div>
+                    <span>Good (20-60 ms)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #ffdd00;"></div>
+                    <span>Fair (60-160 ms)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #ff8800;"></div>
+                    <span>High (160-300 ms)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #ff4444;"></div>
+                    <span>Very High (&gt; 300 ms)</span>
+                </div>
+            </div>
+
+            <div class="stats-panel" id="statsPanel">
+                <h3>Statistics</h3>
+                <div class="stat-item">
+                    <span class="stat-label">Available Regions</span>
+                    <span class="stat-value" id="statRegions">-</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Measured Connections</span>
+                    <span class="stat-value" id="statConnections">-</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Average Latency</span>
+                    <span class="stat-value" id="statAvgLatency">-</span>
+                </div>
+            </div>
+
+            <h2>Latency to Other Regions</h2>
+            <div class="latency-list" id="latencyList">
+                <div class="no-data">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                    </svg>
+                    <p>Select a source region to view latencies</p>
+                </div>
+            </div>
+        </aside>
+
+        <div id="map"></div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="regions.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
