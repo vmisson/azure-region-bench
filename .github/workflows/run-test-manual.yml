@@ -1,4 +1,4 @@
-name: Run Test for specified regions
+name: Run Test for Specific Regions
 
 on:
   workflow_dispatch:  
