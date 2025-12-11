@@ -20,7 +20,7 @@ module "server" {
 module "servers" {
   source              = "./modules/server"
   for_each            = var.deploy_servers ? local.locationList : {}
-  index               = index(local.locationList, each.key)
+  index               = index(keys(local.locationList), each.key)
   location            = each.key
   resource_group_name = var.resource_group_name
   size                = each.value
