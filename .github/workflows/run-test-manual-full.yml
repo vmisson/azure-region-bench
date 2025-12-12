@@ -141,6 +141,7 @@ jobs:
     name: Deploy Client
     runs-on: ubuntu-latest
     needs: server
+    if: always()
 
     steps:
     - name: Checkout code
